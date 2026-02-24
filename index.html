@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Свадьба Матвея и Анастасии</title>
-  <meta name="description" content="Приглашение и детали свадьбы: программа, RSVP, локации, FAQ." />
+  <meta name="description" content="Приглашение и детали свадьбы: программа, Заявка, локации, FAQ." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -22,7 +22,7 @@
       <nav class="nav">
         <a href="#details">Детали</a>
         <a href="#schedule">Программа</a>
-        <a href="#rsvp">RSVP</a>
+        <a href="#rsvp">Заявка</a>
         <a href="#gallery">Фото</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -33,7 +33,7 @@
     <div class="mobile-nav" id="mobileNav">
       <a href="#details">Детали</a>
       <a href="#schedule">Программа</a>
-      <a href="#rsvp">RSVP</a>
+      <a href="#rsvp">Заявка</a>
       <a href="#gallery">Фото</a>
       <a href="#faq">FAQ</a>
     </div>
@@ -160,65 +160,91 @@
       </div>
     </section>
 
-    <!-- RSVP -->
+    <!-- ЗАЯВКА -->
     <section class="section" id="rsvp">
-      <div class="container">
-        <h2>RSVP</h2>
-        <p class="muted">
-          Заполните форму. Данные сохраняются у вас в браузере (локально). Если нужно собирать ответы централизованно — скажите, добавлю отправку в Google Sheets/Forms.
-        </p>
+    <div class="container">
 
-        <div class="grid grid--2">
-          <form class="panel form" id="rsvpForm">
+        <h2 class="section-title section-title--centered">Заявка</h2>
+
+        <div class="grid rsvp-layout">
+
+        <form class="panel form form--big" id="rsvpForm">
             <label>
-              Имя и фамилия
-              <input name="name" autocomplete="name" required placeholder="Например, Иван Петров" />
+            Имя и фамилия
+            <input
+                name="name"
+                autocomplete="name"
+                required
+                placeholder="Например, Иван Петров"
+            />
             </label>
 
             <label>
-              Придёте?
-              <select name="attendance" required>
+            Придёте?
+            <select name="attendance" required>
                 <option value="" selected disabled>Выберите</option>
                 <option value="yes">Да, буду</option>
                 <option value="no">К сожалению, нет</option>
-              </select>
+            </select>
             </label>
 
             <label>
-              Количество гостей (включая вас)
-              <input name="guests" type="number" min="1" max="6" value="1" required />
+            Количество гостей (включая вас)
+            <input
+                name="guests"
+                type="number"
+                min="1"
+                max="6"
+                value="1"
+                required
+            />
             </label>
 
             <label>
-              Аллергии / питание
-              <input name="food" placeholder="Например: аллергия на орехи, без рыбы" />
+            Аллергии / питание
+            <input
+                name="food"
+                placeholder="Например: аллергия на орехи, без рыбы"
+            />
             </label>
 
             <label>
-              Комментарий
-              <textarea name="note" rows="4" placeholder="Что-то важное"></textarea>
+            Комментарий
+            <textarea
+                name="note"
+                rows="5"
+                placeholder="Что-то важное"
+            ></textarea>
             </label>
 
             <div class="form__actions">
-              <button class="btn btn--primary" type="submit">Сохранить</button>
-              <button class="btn" type="button" id="clearRsvp">Очистить</button>
+            <button class="btn btn--primary" type="submit">
+                Сохранить
+            </button>
+            <button class="btn" type="button" id="clearRsvp">
+                Очистить
+            </button>
             </div>
 
             <div class="form__status" id="rsvpStatus" aria-live="polite"></div>
-          </form>
+        </form>
 
-          <div class="panel">
+        <!-- Подарки под формой -->
+        <div class="panel gifts-panel">
             <h3>Подарки</h3>
             <p>
-                Если хотите подарить что-то практичное, нам будет приятнее всего вклад в будущие планы/путешествие.
+            Если хотите подарить что-то практичное, нам будет приятнее всего
+            вклад в будущие планы и путешествие.
             </p>
 
-            <div class="hint" style="margin-top:12px;">
-                Если планируете сюрпризы или активности — лучше согласовать заранее, чтобы никто не оказался “в роли”.
+            <div class="hint">
+            Если планируете сюрпризы или активности — лучше согласовать заранее,
+            чтобы никто не оказался «в роли».
             </div>
-          </div>
         </div>
-      </div>
+
+        </div>
+    </div>
     </section>
 
     <!-- GALLERY -->
@@ -256,7 +282,7 @@
 
           <details class="panel">
             <summary>Можно ли прийти только в лофт, без ЗАГСа?</summary>
-            <p>Да. В RSVP можно указать комментарий, чтобы мы понимали план.</p>
+            <p>Да. В заявке можно указать комментарий, чтобы мы понимали план.</p>
           </details>
 
           <details class="panel">

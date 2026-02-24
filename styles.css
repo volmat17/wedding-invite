@@ -332,6 +332,182 @@ input:focus, select:focus, textarea:focus{
   cursor: pointer;
 }
 
+/* ====== Typography upgrade (крупнее и чётче) ====== */
+
+/* База текста */
+body{
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Главный заголовок */
+h1{
+  font-size: clamp(36px, 4.8vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* Заголовки секций */
+h2{
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Подзаголовки */
+h3{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Лид-текст под hero */
+.lead{
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Карточки hero */
+.card__label{
+  font-size: 13px;
+}
+
+.card__value{
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Таймер — делаем цифры жирнее и читаемее */
+#countdown{
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Кнопки — крупнее и чётче */
+.btn{
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 16px;
+}
+
+/* Текст в панелях */
+.panel p,
+.panel li{
+  font-size: 16px;
+}
+
+/* FAQ summary */
+details summary{
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Мелкий текст */
+.tiny{
+  font-size: 13px;
+}
+
+#details .list{
+  color: var(--text);
+}
+
+#details .list li::marker{
+  color: #cfc7b8; /* мягкий бежевый маркер */
+}
+
+/* ===== Заявка: шире, крупнее, читабельнее ===== */
+
+.rsvp-layout{
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: min(920px, 92vw);
+  margin: 0 auto;
+}
+
+/* Увеличиваем саму панель формы */
+.form--big{
+  padding: 22px;
+}
+
+/* Крупнее подписи */
+.form--big label{
+  font-size: 16px;
+  gap: 10px;
+}
+
+/* Крупнее поля ввода + выше */
+.form--big input,
+.form--big select,
+.form--big textarea{
+  font-size: 18px;
+  padding: 14px 14px;
+  border-radius: 14px;
+}
+
+/* Для select часто нужно чуть больше высоты */
+.form--big select{
+  min-height: 52px;
+}
+
+/* Кнопки крупнее */
+.form--big .btn{
+  font-size: 18px;
+  padding: 14px 18px;
+}
+
+/* Статус под формой — тоже читаемо */
+.form--big .form__status{
+  font-size: 15px;
+}
+
+/* Подарки под формой — визуально легче */
+.gifts-panel p{
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* ===== Отступы вокруг блока заявки ===== */
+
+#rsvp{
+  padding-top: 50px;
+  padding-bottom: 70px;
+}
+
+.rsvp-layout{
+  margin-top: 18px; /* воздух под заголовком */
+}
+
+.form--big{
+  margin-top: 6px;
+}
+
+/* ===== Стилизованный заголовок заявки ===== */
+
+.section-title--centered{
+  text-align: center;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+/* декоративная линия под заголовком */
+.section-title--centered::after{
+  content: "";
+  display: block;
+  width: 64px;
+  height: 2px;
+  background: var(--accent);
+  margin: 14px auto 0;
+  border-radius: 2px;
+}
+
+/* делаем сам текст чуть выразительнее */
+.section-title--centered{
+  font-size: clamp(30px, 3.2vw, 36px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 /* Мобилка */
 @media (max-width: 860px){
   .nav{display:none}
