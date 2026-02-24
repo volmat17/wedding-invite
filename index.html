@@ -6,20 +6,13 @@
   <title>Свадьба Матвея и Анастасии</title>
   <meta name="description" content="Приглашение и детали свадьбы: программа, Заявка, локации, FAQ." />
   <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body id="top">
   <header class="topbar">
-    <div class="container topbar__inner">
-      <div class="brand">
-        <div class="brand__mark">М&A</div>
-        <div class="brand__text">
-          <div class="brand__title">Матвей & Анастасия</div>
-          <div class="brand__subtitle">4 апреля 2026 • Москва</div>
-        </div>
-      </div>
-
-      <nav class="nav">
+    <div class="container topbar__inner topbar__inner--center">
+      <nav class="nav nav--center" aria-label="Навигация по разделам">
         <a href="#details">Детали</a>
         <a href="#schedule">Программа</a>
         <a href="#rsvp">Заявка</a>
@@ -44,6 +37,15 @@
     <section class="hero">
       <div class="hero__bg" role="img" aria-label="Свадебная фотография"></div>
       <div class="container hero__content">
+        <div class="hero-countdown" aria-label="Обратный отсчет до свадьбы">
+          <div class="hero-countdown__label">
+            Рождение новой семьи через:
+          </div>
+          <div class="hero-countdown__value">
+            <span id="countdown">—</span>
+          </div>
+        </div>
+
         <h1>Мы женимся 🤍</h1>
         <p class="lead">
           Будем рады разделить этот день с вами.
@@ -57,12 +59,6 @@
           <div class="card">
             <div class="card__label">Город</div>
             <div class="card__value">Москва</div>
-          </div>
-          <div class="card">
-            <div class="card__label">До встречи у ЗАГСа</div>
-            <div class="card__value">
-              <span id="countdown">—</span>
-            </div>
           </div>
         </div>
 
@@ -250,19 +246,34 @@
     <!-- GALLERY -->
     <section class="section section--alt" id="gallery">
       <div class="container">
-        <h2>Фото</h2>
-        <p class="muted">Положите ваши фото в папку <b>assets</b> и оставьте эти имена файлов или замените пути ниже.</p>
+        <div class="gallery-carousel">
+        <button class="carousel-btn" id="galleryPrev" type="button" aria-label="Предыдущие фото">‹</button>
 
-        <div class="gallery" id="galleryGrid">
-          <button class="photo" data-src="assets/photo1.jpg" aria-label="Открыть фото 1">
-            <img src="assets/photo1.jpg" alt="Фото 1" loading="lazy" />
-          </button>
-          <button class="photo" data-src="assets/photo2.jpg" aria-label="Открыть фото 2">
-            <img src="assets/photo2.jpg" alt="Фото 2" loading="lazy" />
-          </button>
-          <button class="photo" data-src="assets/photo3.jpg" aria-label="Открыть фото 3">
-            <img src="assets/photo3.jpg" alt="Фото 3" loading="lazy" />
-          </button>
+        <div class="carousel-viewport" id="galleryViewport">
+            <div class="gallery-track" id="galleryTrack">
+            <button class="photo" data-src="assets/photo1.jpg" aria-label="Открыть фото 1">
+                <img src="assets/photo1.jpg" alt="Фото 1" loading="lazy" />
+            </button>
+            <button class="photo" data-src="assets/photo2.jpg" aria-label="Открыть фото 2">
+                <img src="assets/photo2.jpg" alt="Фото 2" loading="lazy" />
+            </button>
+            <button class="photo" data-src="assets/photo3.jpg" aria-label="Открыть фото 3">
+                <img src="assets/photo3.jpg" alt="Фото 3" loading="lazy" />
+            </button>
+
+            <button class="photo" data-src="assets/photo4.jpg" aria-label="Открыть фото 4">
+                <img src="assets/photo4.jpg" alt="Фото 4" loading="lazy" />
+            </button>
+            <button class="photo" data-src="assets/photo5.jpg" aria-label="Открыть фото 5">
+                <img src="assets/photo5.jpg" alt="Фото 5" loading="lazy" />
+            </button>
+            <button class="photo" data-src="assets/photo6.jpg" aria-label="Открыть фото 6">
+                <img src="assets/photo6.jpg" alt="Фото 6" loading="lazy" />
+            </button>
+            </div>
+        </div>
+
+        <button class="carousel-btn" id="galleryNext" type="button" aria-label="Следующие фото">›</button>
         </div>
       </div>
     </section>

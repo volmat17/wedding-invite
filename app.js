@@ -80,29 +80,30 @@ const el = (id) => document.getElementById(id);
 
   const targetMs = new Date(CONFIG.weddingStartISO).getTime();
 
-  function tickCountdown() {
-    const diff = targetMs - nowInMs();
+ function tickCountdown() {
+  const diff = targetMs - nowInMs();
 
-    if (diff <= 0) {
-      countdownEl.textContent = "уже началось";
-      return;
-    }
-
-    const sec = Math.floor(diff / 1000);
-    const days = Math.floor(sec / (3600 * 24));
-    const hours = Math.floor((sec % (3600 * 24)) / 3600);
-    const mins = Math.floor((sec % 3600) / 60);
-
-    const parts = [];
-    if (days > 0) parts.push(`${days} д`);
-    parts.push(`${hours} ч`);
-    parts.push(`${mins} мин`);
-
-    countdownEl.textContent = parts.join(" ");
+  if (diff <= 0) {
+    // без текста, просто нули
+    countdownEl.textContent = "00:00:00:00";
+    return;
   }
 
+  const totalSec = Math.floor(diff / 1000);
+
+  const days = Math.floor(totalSec / (3600 * 24));
+  const hours = Math.floor((totalSec % (3600 * 24)) / 3600);
+  const mins = Math.floor((totalSec % 3600) / 60);
+  const secs = totalSec % 60;
+
+  const pad2 = (n) => String(n).padStart(2, "0");
+
+  // Формат: DD:HH:MM:SS (дни могут быть больше 99 — это ок)
+  countdownEl.textContent = `${days}:${pad2(hours)}:${pad2(mins)}:${pad2(secs)}`;
+ }
+
   tickCountdown();
-  setInterval(tickCountdown, 30_000);
+  setInterval(tickCountdown, 1000);
 })();
 
 // ====== RSVP (LocalStorage) ======
@@ -220,4 +221,148 @@ const el = (id) => document.getElementById(id);
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+})();
+
+// ====== Ultra-smooth anchor scroll (без дерганья, с инерцией) ======
+(() => {
+  const OFFSET_EXTRA = 0; // хотим остановиться на 20px выше секции
+  const header = document.querySelector(".topbar");
+
+  // если у пользователя включено "уменьшение анимаций" — уважим это
+  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+  let rafId = 0; // чтобы отменять прошлую анимацию при новом клике
+
+  function getHeaderHeight() {
+    return header ? header.getBoundingClientRect().height : 0;
+  }
+
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
+
+  // Очень мягкий easing, без "перелёта" (даёт ощущение iOS/macOS)
+  function easeInOutSine(t) {
+    return -(Math.cos(Math.PI * t) - 1) / 2;
+  }
+
+  function getTargetY(hash) {
+    const target = document.querySelector(hash);
+    if (!target) return null;
+
+    const rect = target.getBoundingClientRect();
+    const absoluteTop = window.scrollY + rect.top;
+
+    // учитываем липкую шапку + дополнительно 20px выше
+    const y = absoluteTop - getHeaderHeight() - OFFSET_EXTRA;
+    return Math.max(0, Math.round(y));
+  }
+
+  function animateScrollTo(toY) {
+    // отменяем предыдущую анимацию, чтобы не дёргалось при повторных кликах
+    if (rafId) cancelAnimationFrame(rafId);
+
+    const fromY = window.scrollY;
+    const distance = toY - fromY;
+    const abs = Math.abs(distance);
+
+    // Длительность зависит от расстояния: длинные переходы — заметно медленнее
+    // (но без бесконечности)
+    const duration = clamp(550 + abs * 0.45, 650, 1700);
+
+    if (prefersReducedMotion || abs < 2) {
+      window.scrollTo(0, toY);
+      return;
+    }
+
+    const start = performance.now();
+
+    const step = (now) => {
+      const t = clamp((now - start) / duration, 0, 1);
+      const eased = easeInOutSine(t);
+
+      // округляем до subpixel меньше — браузеру легче, визуально мягче
+      const y = fromY + distance * eased;
+      window.scrollTo(0, y);
+
+      if (t < 1) rafId = requestAnimationFrame(step);
+      else window.scrollTo(0, toY);
+    };
+
+    rafId = requestAnimationFrame(step);
+  }
+
+  function scrollToHash(hash) {
+    if (!hash || hash === "#") return;
+    const y = getTargetY(hash);
+    if (y === null) return;
+    animateScrollTo(y);
+  }
+
+  // Перехват кликов по якорям
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+
+    const href = a.getAttribute("href");
+    if (!href || href.length < 2) return;
+
+    if (!document.querySelector(href)) return;
+
+    e.preventDefault();
+
+    // закрываем мобильное меню, если открыто
+    const mobileNav = document.getElementById("mobileNav");
+    if (mobileNav && mobileNav.style.display === "block") {
+      mobileNav.style.display = "none";
+    }
+
+    history.pushState(null, "", href);
+    scrollToHash(href);
+  });
+
+  // Если открыли страницу сразу с якорем
+  window.addEventListener("load", () => {
+    if (location.hash && document.querySelector(location.hash)) {
+      // небольшая задержка на отрисовку шапки
+      setTimeout(() => scrollToHash(location.hash), 80);
+    }
+  });
+
+  // Если пользователь сам крутит колесо/тач — прекращаем анимацию, чтобы не дралось
+  ["wheel", "touchstart", "keydown"].forEach((evt) => {
+    window.addEventListener(evt, () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = 0;
+    }, { passive: true });
+  });
+})();
+
+// ====== Gallery carousel arrows (листать по 3 фото) ======
+(() => {
+  const viewport = document.getElementById("galleryViewport");
+  const prev = document.getElementById("galleryPrev");
+  const next = document.getElementById("galleryNext");
+
+  if (!viewport || !prev || !next) return;
+
+  function updateButtons() {
+    const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
+    prev.disabled = viewport.scrollLeft <= 2;
+    next.disabled = viewport.scrollLeft >= maxScrollLeft - 2;
+  }
+
+  function pageScroll(direction) {
+    // листаем ровно на ширину видимой области (то есть на "страницу" = 3 фото)
+    viewport.scrollBy({ left: direction * viewport.clientWidth, behavior: "smooth" });
+  }
+
+  prev.addEventListener("click", () => pageScroll(-1));
+  next.addEventListener("click", () => pageScroll(1));
+
+  viewport.addEventListener("scroll", updateButtons, { passive: true });
+  window.addEventListener("resize", updateButtons);
+
+  // первичная инициализация
+  updateButtons();
 })();
