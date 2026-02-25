@@ -367,26 +367,80 @@ const el = (id) => document.getElementById(id);
   updateButtons();
 })();
 
-// ====== Side flowers: show once on first scroll and keep until refresh ======
+// ====== Flowers: scroll-progress slide-in (stay in document positions) ======
 (() => {
-  const THRESHOLD = 80; // сколько нужно проскроллить, чтобы “запустить” эффект
-  let shown = false;
+  const flowers = Array.from(document.querySelectorAll(".flower"));
+  if (!flowers.length) return;
 
-  function showFlowers() {
-    if (shown) return;
-    shown = true;
-    document.body.classList.add("flowers-shown");
-    window.removeEventListener("scroll", onScroll, { passive: true });
+  // насколько заранее цветок начинает выезжать (в пикселях)
+  const REVEAL_RANGE = 420;
+
+  // финальная "внутренняя" позиция от края (px)
+  const FINAL_INSET = 8;
+
+  // стартовый сдвиг (насколько далеко "за экраном" он лежит)
+  const START_SHIFT = 260;
+
+  // флаг: если цветок уже полностью приехал — больше не трогаем
+  const done = new WeakSet();
+
+  const clamp01 = (x) => Math.max(0, Math.min(1, x));
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  // мягкая кривая (без дерготни)
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+  function update() {
+    const viewTop = window.scrollY;
+    const viewBottom = viewTop + window.innerHeight;
+
+    for (const f of flowers) {
+      if (done.has(f)) continue;
+
+      const top = f.offsetTop; // абсолютная позиция в документе
+      // Когда нижняя граница viewport приближается к top цветка:
+      const raw = (viewBottom - top) / REVEAL_RANGE;
+      const t = clamp01(raw);
+
+      if (t <= 0) continue;
+
+      const p = easeOutCubic(t);
+
+      const isLeft = f.classList.contains("flower--left");
+
+      // для left: от -START_SHIFT -> +FINAL_INSET (вправо)
+      // для right: от +START_SHIFT -> -FINAL_INSET (влево)
+      const fromX = isLeft ? -START_SHIFT : START_SHIFT;
+      const toX = isLeft ? (START_SHIFT - FINAL_INSET) : -(START_SHIFT - FINAL_INSET);
+
+      const x = lerp(fromX, toX, p);
+
+      f.style.opacity = String(lerp(0, 1, p));
+      f.style.transform = `translateX(${x}px)`;
+
+      // если приехал — фиксируем и перестаем обновлять
+      if (t >= 1) {
+        f.style.opacity = "1";
+        f.style.transform = `translateX(${toX}px)`;
+        done.add(f);
+      }
+    }
   }
 
+  // обновляем через rAF, чтобы не грузить скролл
+  let ticking = false;
   function onScroll() {
-    if (window.scrollY > THRESHOLD) showFlowers();
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      update();
+      ticking = false;
+    });
   }
 
-  // если страница открылась уже не вверху (например по якорю) — сразу показать
-  if (window.scrollY > THRESHOLD) {
-    showFlowers();
-  } else {
-    window.addEventListener("scroll", onScroll, { passive: true });
-  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+
+  // первичная отрисовка (если открыли страницу не сверху)
+  update();
 })();

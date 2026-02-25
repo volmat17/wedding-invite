@@ -852,6 +852,50 @@ details summary{
   .side-flowers{ display: none; }
 }
 
+/* =====================================================
+   Flowers: находятся в документе (scroll вместе со страницей)
+   и выезжают по мере прокрутки
+   ===================================================== */
+
+body{ position: relative; }
+
+/* контейнер не фиксированный — он часть страницы */
+.flowers{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2; /* ниже контента/кнопок, но видно */
+}
+
+/* базовый цветок */
+.flower{
+  position: absolute;
+  height: auto;
+  opacity: 0; /* до появления */
+  will-change: transform, opacity;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,.08));
+}
+
+/* стороны */
+.flower--left{ left: -220px; }   /* старт за экраном */
+.flower--right{ right: -220px; } /* старт за экраном */
+
+/* размеры + “якорные” позиции по высоте страницы (подстрой под вкус) */
+.flower--a{ top: 520px;  width: 360px; }
+.flower--b{ top: 980px;  width: 315px; }
+.flower--c{ top: 1500px; width: 285px; }
+
+.flower--d{ top: 2100px; width: 360px; }
+.flower--e{ top: 2700px; width: 315px; }
+.flower--f{ top: 3300px; width: 285px; }
+
+/* финальное “въехавшее” положение задаём JS через transform */
+
+/* на узких экранах лучше выключить */
+@media (max-width: 860px){
+  .flowers{ display:none; }
+}
+
 /* Мобилка */
 @media (max-width: 860px){
   .nav{display:none}
