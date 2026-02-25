@@ -911,18 +911,29 @@ body{ position: relative; }
 
 @media (max-width: 860px){
 
-  .flowers{
-    display:block;
-    opacity: .25; /* чтобы не давили */
-  }
+/* ===== MOBILE: оставить только flower6 над таймером ===== */
 
-  .flower--a{ width: 220px; left:-190px; }
-  .flower--b{ width: 200px; right:-190px; }
-  .flower--c{ width: 180px; left:-175px; }
+/* скрываем ВСЕ цветы */
+.flower{
+  display: none !important;
+}
 
-  .flower--d{ width: 220px; right:-190px; }
-  .flower--e{ width: 200px; left:-175px; }
-  .flower--f{ width: 180px; right:-175px; }
+/* включаем только flower6 */
+.flower--f{
+  display: block !important;
+
+  /* позиционирование */
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+
+  top: 120px;          /* ← над таймером (можно подвинуть) */
+  width: 160px;
+
+  opacity: 0.45;
+  z-index: 1;
+}
+
 }
 
 /* =====================================================
