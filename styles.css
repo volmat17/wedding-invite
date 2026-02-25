@@ -896,6 +896,42 @@ body{ position: relative; }
   .flowers{ display:none; }
 }
 
+/* =====================================================
+   RSVP info block (вместо формы)
+   ===================================================== */
+
+.rsvp-info{
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 28px;
+}
+
+.rsvp-info__text{
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.rsvp-info__list{
+  list-style: none;
+  padding: 0;
+  margin: 0 0 26px;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.rsvp-info__list li{
+  margin: 8px 0;
+}
+
+.rsvp-info__btn{
+  font-size: 20px;
+  padding: 16px 28px;
+  border-radius: 18px;
+}
+
 /* Мобилка */
 @media (max-width: 860px){
   .nav{display:none}

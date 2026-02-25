@@ -158,89 +158,42 @@
 
     <!-- ЗАЯВКА -->
     <section class="section" id="rsvp">
-    <div class="container">
+      <div class="container">
 
         <h2 class="section-title section-title--centered">Заявка</h2>
 
-        <div class="grid rsvp-layout">
+        <div class="panel rsvp-info">
 
-        <form class="panel form form--big" id="rsvpForm">
-            <label>
-            Имя и фамилия
-            <input
-                name="name"
-                autocomplete="name"
-                required
-                placeholder="Например, Иван Петров"
-            />
-            </label>
+        <p class="rsvp-info__text">
+            Чтобы мы могли комфортно подготовить праздник, пожалуйста,
+            заполните короткую форму. Нам важно знать:
+        </p>
 
-            <label>
-            Придёте?
-            <select name="attendance" required>
-                <option value="" selected disabled>Выберите</option>
-                <option value="yes">Да, буду</option>
-                <option value="no">К сожалению, нет</option>
-            </select>
-            </label>
+        <ul class="rsvp-info__list">
+            <li>Подтвердите, сможете ли присутствовать</li>
+            <li>Укажите количество гостей</li>
+            <li>Сообщите об аллергиях или особенностях питания</li>
+        </ul>
 
-            <label>
-            Количество гостей (включая вас)
-            <input
-                name="guests"
-                type="number"
-                min="1"
-                max="6"
-                value="1"
-                required
-            />
-            </label>
+        <div class="rsvp-info__actions">
+            <!-- ВСТАВЬ СЮДА ССЫЛКУ НА СВОЮ GOOGLE FORM -->
+            <a
+            class="btn btn--primary rsvp-info__btn"
+            href="https://forms.gle/eNFgHhtSvR2oZeov7"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Заполнить заявку
+            </a>
+        </div>
 
-            <label>
-            Аллергии / питание
-            <input
-                name="food"
-                placeholder="Например: аллергия на орехи, без рыбы"
-            />
-            </label>
-
-            <label>
-            Комментарий
-            <textarea
-                name="note"
-                rows="5"
-                placeholder="Что-то важное"
-            ></textarea>
-            </label>
-
-            <div class="form__actions">
-            <button class="btn btn--primary" type="submit">
-                Сохранить
-            </button>
-            <button class="btn" type="button" id="clearRsvp">
-                Очистить
-            </button>
-            </div>
-
-            <div class="form__status" id="rsvpStatus" aria-live="polite"></div>
-        </form>
-
-        <!-- Подарки под формой -->
-        <div class="panel gifts-panel">
-            <h3>Подарки</h3>
-            <p>
-            Если хотите подарить что-то практичное, нам будет приятнее всего
-            вклад в будущие планы и путешествие.
-            </p>
-
-            <div class="hint">
-            Если планируете сюрпризы или активности — лучше согласовать заранее,
-            чтобы никто не оказался «в роли».
-            </div>
+        <div class="hint" style="margin-top:18px">
+            Пожалуйста, заполните форму до <b>15 марта 2026</b>.
         </div>
 
         </div>
-    </div>
+
+      </div>
     </section>
 
     <!-- GALLERY -->
